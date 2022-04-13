@@ -1,5 +1,4 @@
-from django.contrib.auth.models import User
-from rest_framework import generics, permissions, mixins
+from rest_framework import generics
 from rest_framework.response import Response
 
 from .serializer import RegisterSerializer, UserSerializer
@@ -17,3 +16,6 @@ class RegisterApi(generics.GenericAPIView):
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "message": "User Created Successfully.  Now perform Login to get your token",
         })
+
+    def get(self, request, *args, **kwargs):
+        return Response(UserSerializer(request.user, context=self.get_serializer_context()).data)
